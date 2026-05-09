@@ -20,7 +20,7 @@ library(scales)
 
 ## AI assistance disclosure
 
-This report uses AI assistance for structuring the report and preparing R code for tables and plots. 
+This report uses AI assistance (GPT-5.5 Thinking) for structuring the report and preparing R code for tables and plots. 
 
 ## Brief description
 
@@ -81,6 +81,44 @@ Viewership grew every season. Season 1 averaged `r sprintf("%.2f", v[1])` millio
 
 The biggest jump between consecutive seasons was from season `r biggest$season - 1` to season `r biggest$season` (`r sprintf("%+.2f", biggest$change_from_previous)` million); the smallest was from season `r smallest$season - 1` to season `r smallest$season` (`r sprintf("%+.2f", smallest$change_from_previous)` million).
 
+## Viewership over time
+
+```{r viewership-plot, fig.width=8, fig.height=5}
+# AI-assisted graph code, checked by author
+ggplot(viewership, aes(x = season, y = avg_us_viewers_millions)) +
+  geom_line(linewidth = 1.1) +
+  geom_point(size = 3) +
+  scale_x_continuous(breaks = 1:8) +
+  scale_y_continuous(labels = label_number(suffix = "M")) +
+  labs(
+    title = "Average U.S. Viewership of Game of Thrones by Season",
+    x = "Season",
+    y = "Average U.S. viewers (millions)",
+    caption = "Data source: Wikipedia, List of Game of Thrones episodes."
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+## Season-to-season changes in viewership
+
+```{r change-plot, fig.width=8, fig.height=5}
+# AI-assisted graph code, checked by author
+viewership %>%
+  filter(!is.na(change_from_previous)) %>%
+  ggplot(aes(x = season, y = change_from_previous)) +
+  geom_col() +
+  geom_hline(yintercept = 0, linewidth = 0.4) +
+  scale_x_continuous(breaks = 2:8) +
+  scale_y_continuous(labels = label_number(suffix = "M")) +
+  labs(
+    title = "Season-to-Season Change in Average U.S. Viewership",
+    subtitle = "Each bar shows the change compared with the previous season",
+    x = "Season",
+    y = "Change in average viewers (millions)",
+    caption = "Data source: Wikipedia, List of Game of Thrones episodes."
+  ) +
+  theme_minimal(base_size = 13)
+```
 
 ## References
 
