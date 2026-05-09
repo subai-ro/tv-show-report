@@ -35,6 +35,7 @@ This report uses AI assistance for structuring the report and preparing R code f
 The table below shows the number of episodes and the average U.S. viewership for each season, in millions of viewers. Values were taken from the season overview table on Wikipedia.
 
 ```{r data}
+# AI-assisted code: creates the manually entered viewership table and calculates changes
 viewership <- tibble(
   season = 1:8,
   episodes = c(10, 10, 10, 10, 10, 10, 7, 6),
@@ -54,6 +55,7 @@ viewership %>%
 ## Basic statistics
 
 ```{r statistics}
+# AI-assisted code: calculates basic descriptive statistics from the viewership table
 v <- viewership$avg_us_viewers_millions
 
 # Largest and smallest season-to-season changes (season 1 has NA, so skip it)
