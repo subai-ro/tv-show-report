@@ -12,6 +12,12 @@ execute:
   message: false
 ---
 
+```{r setup, include=FALSE}
+library(tidyverse)
+library(knitr)
+library(scales)
+```
+
 ## AI assistance disclosure
 
 This report uses AI assistance for structuring the report and preparing R code for tables and plots. 
@@ -23,6 +29,56 @@ This report uses AI assistance for structuring the report and preparing R code f
 ## Image
 
 ![Title card of *Game of Thrones*. Source: Wikipedia/Wikimedia.](https://upload.wikimedia.org/wikipedia/en/d/d8/Game_of_Thrones_title_card.jpg)
+
+## Data
+
+The table below shows the number of episodes and the average U.S. viewership for each season, in millions of viewers. Values were taken from the season overview table on Wikipedia.
+
+```{r data}
+viewership <- tibble(
+  season = 1:8,
+  episodes = c(10, 10, 10, 10, 10, 10, 7, 6),
+  avg_us_viewers_millions = c(2.52, 3.80, 4.97, 6.84, 6.88, 7.69, 10.26, 11.99)
+) %>%
+  mutate(
+    change_from_previous = avg_us_viewers_millions - lag(avg_us_viewers_millions),
+    percent_change = change_from_previous / lag(avg_us_viewers_millions) * 100
+  )
+
+viewership %>%
+  mutate(across(where(is.numeric), \(x) round(x, 2))) %>%
+  kable(col.names = c("Season", "Episodes", "Avg. viewers (M)",
+                      "Change (M)", "Change (%)"))
+```
+
+## Basic statistics
+
+```{r statistics}
+v <- viewership$avg_us_viewers_millions
+
+# Largest and smallest season-to-season changes (season 1 has NA, so skip it)
+changes <- viewership %>% filter(!is.na(change_from_previous))
+biggest  <- changes %>% slice_max(change_from_previous, n = 1)
+smallest <- changes %>% slice_min(change_from_previous, n = 1)
+
+stats <- tibble(
+  statistic = c("Min", "Max", "Mean",
+                "Season 1 → 8 (absolute)",
+                "Season 1 → 8 (percent)"),
+  value = c(sprintf("%.2f M", min(v)),
+            sprintf("%.2f M", max(v)),
+            sprintf("%.2f M", mean(v)),
+            sprintf("%+.2f M", v[8] - v[1]),
+            sprintf("%+.0f%%",  (v[8] / v[1] - 1) * 100))
+)
+
+kable(stats, col.names = c("Statistic", "Value"))
+```
+
+Viewership grew every season. Season 1 averaged `r sprintf("%.2f", v[1])` million U.S. viewers; by season 8 the average was `r sprintf("%.2f", v[8])` million — a `r sprintf("%.1f", v[8] / v[1])`× increase over the run of the show.
+
+The biggest jump between consecutive seasons was from season `r biggest$season - 1` to season `r biggest$season` (`r sprintf("%+.2f", biggest$change_from_previous)` million); the smallest was from season `r smallest$season - 1` to season `r smallest$season` (`r sprintf("%+.2f", smallest$change_from_previous)` million).
+
 
 ## References
 
