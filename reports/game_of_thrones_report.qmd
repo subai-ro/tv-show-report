@@ -1,0 +1,31 @@
+---
+title: "Viewership Trends in *Game of Thrones*"
+author: "Mikita Silivestrau"
+format:
+  html:
+    toc: false
+    embed-resources: true
+    theme: cosmo
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+
+## AI assistance disclosure
+
+This report uses AI assistance for structuring the report and preparing R code for tables and plots. 
+
+## Brief description
+
+*Game of Thrones* is an American fantasy drama television series created by David Benioff and D. B. Weiss for HBO. It is based on George R. R. Martin's book series *A Song of Ice and Fire*. The series premiered in 2011 and concluded in 2019 after eight seasons.
+
+## Image
+
+![Title card of *Game of Thrones*. Source: Wikipedia/Wikimedia.](https://upload.wikimedia.org/wikipedia/en/d/d8/Game_of_Thrones_title_card.jpg)
+
+## References
+
+Wikipedia contributors. “Game of Thrones.” *Wikipedia, The Free Encyclopedia*.  
+Wikipedia contributors. “List of Game of Thrones episodes.” *Wikipedia, The Free Encyclopedia*.  
+Image source: Wikipedia/Wikimedia, *Game of Thrones* title card.
